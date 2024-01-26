@@ -106,6 +106,7 @@ def test_problem_3() -> float:
     result: int = 0
     test_cases: List[Tuple[str, str]] = [
         ("2020", "True"),
+        ("2023", "False"),
         ("0", "El año debe estar en el rango [1900, 2200].")
     ]
 
@@ -230,7 +231,7 @@ def main():
     """
     Función principal.
     """
-    print("Corriendo tests...")
+    print("Corriendo tests...\n")
 
     result: float = 0.0
     result += test_problem_1()

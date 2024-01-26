@@ -152,6 +152,7 @@ def test_problem_4() -> float:
     result: int = 0
     test_cases: List[Tuple[str, str]] = [
         ("25", "True"),
+        ("26", "False"),
         ("-1", "El número debe ser no negativo."),
     ]
 

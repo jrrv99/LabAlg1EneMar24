@@ -1,6 +1,6 @@
 import subprocess
 from typing import List, Tuple
-
+import argparse
 
 def test_problem_1() -> float:
     """
@@ -236,4 +236,21 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    functions = {
+        "test_problem_1": test_problem_1, 
+        "test_problem_2": test_problem_2,
+        "test_problem_3": test_problem_3,
+        "test_problem_4": test_problem_4,
+        "test_problem_5": test_problem_5,
+    }
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("test",
+                        choices=list(functions.keys()),
+                        help="Función a ejecutar")
+    args = parser.parse_args()
+
+    if args.test is not None:
+        functions[args.test]()
+    else:
+        main()

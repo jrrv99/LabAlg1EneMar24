@@ -2,6 +2,7 @@ import subprocess
 from typing import List, Tuple
 import argparse
 
+
 def test_problem_1() -> float:
     """
     Casos de prueba para el problema 1 (VolumenAreaCubo.py).
@@ -25,7 +26,8 @@ def test_problem_1() -> float:
             capture_output=True
         )
 
-        test_result: bool = process.stdout.strip() == test[1]
+        output: str = process.stdout.split("\n")[-2].strip()
+        test_result: bool = output == test[1]
 
         if test_result:
             print(
@@ -34,7 +36,7 @@ def test_problem_1() -> float:
         else:
             print(
                 f"\033[1;31m**\033[0m Caso de prueba incorrecto: {test[0]} -> {test[1]}")
-            print(f"Output: {process.stdout.strip()}")
+            print(f"Output: {output}")
             if process.stderr:
                 print(f"Error: {process.stderr.strip()}")
 
@@ -69,7 +71,8 @@ def test_problem_2() -> float:
             capture_output=True
         )
 
-        test_result: bool = process.stdout.strip() == test[1]
+        output: str = process.stdout.split("\n")[-2].strip()
+        test_result: bool = output == test[1]
 
         if test_result:
             print(
@@ -78,7 +81,7 @@ def test_problem_2() -> float:
         else:
             print(
                 f"\033[1;31m**\033[0m Caso de prueba incorrecto: {test[0]} -> {test[1]}")
-            print(f"Output: {process.stdout.strip()}")
+            print(f"Output: {output}")
             if process.stderr:
                 print(f"Error: {process.stderr.strip()}")
 
@@ -113,7 +116,8 @@ def test_problem_3() -> float:
             capture_output=True
         )
 
-        test_result: bool = process.stdout.strip() == test[1]
+        output: str = process.stdout.split("\n")[-2].strip()
+        test_result: bool = output == test[1]
 
         if test_result:
             print(
@@ -122,7 +126,7 @@ def test_problem_3() -> float:
         else:
             print(
                 f"\033[1;31m**\033[0m Caso de prueba incorrecto: {test[0]} -> {test[1]}")
-            print(f"Output: {process.stdout.strip()}")
+            print(f"Output: {output}")
             if process.stderr:
                 print(f"Error: {process.stderr.strip()}")
 
@@ -157,7 +161,8 @@ def test_problem_4() -> float:
             capture_output=True
         )
 
-        test_result: bool = process.stdout.strip() == test[1]
+        output: str = process.stdout.split("\n")[-2].strip()
+        test_result: bool = output == test[1]
 
         if test_result:
             print(
@@ -166,7 +171,7 @@ def test_problem_4() -> float:
         else:
             print(
                 f"\033[1;31m**\033[0m Caso de prueba incorrecto: {test[0]} -> {test[1]}")
-            print(f"Output: {process.stdout.strip()}")
+            print(f"Output: {output}")
             if process.stderr:
                 print(f"Error: {process.stderr.strip()}")
 
@@ -201,7 +206,8 @@ def test_problem_5() -> float:
             capture_output=True
         )
 
-        test_result: bool = process.stdout.strip() == test[1]
+        output: str = process.stdout.split("\n")[-2].strip()
+        test_result: bool = output == test[1]
 
         if test_result:
             print(
@@ -210,7 +216,7 @@ def test_problem_5() -> float:
         else:
             print(
                 f"\033[1;31m**\033[0m Caso de prueba incorrecto: {test[0]} -> {test[1]}")
-            print(f"Output: {process.stdout.strip()}")
+            print(f"Output: {output}")
             if process.stderr:
                 print(f"Error: {process.stderr.strip()}")
 
@@ -233,7 +239,7 @@ def main():
     result += test_problem_5()
 
     print(f"---\n{result}/5.0 Puntaje total.")
-
+    
 
 if __name__ == "__main__":
     functions = {
@@ -245,9 +251,10 @@ if __name__ == "__main__":
     }
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("test",
+    parser.add_argument("--test",
                         choices=list(functions.keys()),
-                        help="Función a ejecutar")
+                        help="Función a ejecutar",
+                        required=False)
     args = parser.parse_args()
 
     if args.test is not None:

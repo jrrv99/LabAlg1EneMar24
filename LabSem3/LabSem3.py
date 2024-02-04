@@ -104,4 +104,4 @@ def es_simetrica(matriz: List[List[int]]) -> bool:
             if row == column: continue
             if matriz[row][column] != matriz[column][row]: return False
 
-        return True
+    return True

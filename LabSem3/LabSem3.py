@@ -88,6 +88,8 @@ def suma_maximo(matriz: List[List[int]]) -> int:
     rowMax: int
 
     for row in range(len(matriz)):
+        if len(matriz[row]) < 0: continue
+        
         rowMax = matriz[row][0]
 
         for column in range(1, len(matriz[row])):

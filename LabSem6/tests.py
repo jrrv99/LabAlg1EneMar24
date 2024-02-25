@@ -209,6 +209,10 @@ class TestPrintMenu(unittest.TestCase):
             else:
                 self.assertFalse(LabSem6.numero_feliz(num), num)
 
+    def tests_anagrama(self):
+        self.assertTrue(LabSem6.anagrama("amor", "roma"))
+        self.assertFalse(LabSem6.anagrama("Toledo", "El todo"))
+        self.assertFalse(LabSem6.anagrama("Hola", "Mundo"))
 
 if __name__ == "__main__":
     unittest.main()

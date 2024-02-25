@@ -49,3 +49,11 @@ def numero_feliz(num: int) -> bool:
             return False
 
     return True
+
+
+def orderStringByUnicode(string: str) -> str:
+    return "".join(sorted(list(string)))
+
+
+def anagrama(string1: str, string2: str) -> bool:
+    return orderStringByUnicode(string1) == orderStringByUnicode(string2)

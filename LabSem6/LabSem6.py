@@ -1,3 +1,6 @@
+from typing import List
+
+
 def numero_de_kaprekar(num: int) -> bool:
     squared: int = num**2
 
@@ -29,3 +32,20 @@ def numero_de_kaprekar_str(num: int) -> bool:
         return True
 
     return False
+
+
+def numero_feliz(num: int) -> bool:
+    if num < 0:
+        raise ValueError("El número debe ser no-negativo")
+
+    already_squered_nums: List[int] = []
+
+    while num != 1:
+        already_squered_nums.append(num)
+
+        num = sum([int(digit) ** 2 for digit in str(num)])
+
+        if num in already_squered_nums:
+            return False
+
+    return True

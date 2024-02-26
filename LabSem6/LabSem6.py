@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 def numero_de_kaprekar(num: int) -> bool:
@@ -114,3 +114,59 @@ def puede_colocar_flores(flowerbed: List[int], num: int) -> bool:
             count += 1
 
     return count >= num
+
+
+MOVE_RIGHT: Tuple[int, int] = (0, 1)
+MOVE_DOWN: Tuple[int, int] = (1, 0)
+MOVE_LEFT: Tuple[int, int] = (0, -1)
+MOVE_UP: Tuple[int, int] = (-1, 0)
+MOVE_DOWN_RIGHT: Tuple[int, int] = (1, 1)
+MOVE_DOWN_LEFT: Tuple[int, int] = (1, -1)
+MOVE_UP_RIGHT: Tuple[int, int] = (-1, 1)
+MOVE_UP_LEFT: Tuple[int, int] = (-1, -1)
+
+
+def sopa_de_letras(word: str, matrix: List[List[str]]) -> bool:
+    if not (len(matrix) >= 0 and all(len(row) == len(matrix[0]) for row in  matrix)):
+        raise ValueError("La matriz debe ser M × N para algún M, N enteros.")
+
+    if not all(len(char) == 1 for row in matrix for char in row):
+        raise ValueError(
+            "La matriz sólo puede contener caracteres (strings de longitud 1)."
+        )
+
+    directions = [
+        MOVE_RIGHT,
+        MOVE_DOWN,
+        MOVE_LEFT,
+        MOVE_UP,
+        MOVE_DOWN_RIGHT,
+        MOVE_DOWN_LEFT,
+        MOVE_UP_RIGHT,
+        MOVE_UP_LEFT,
+    ]
+
+    for row in range(len(matrix)):
+        for column in range(len(matrix[0])):
+            if matrix[row][column] != word[0]:  # not coincidence at first letter
+                continue
+
+            for row_dir, col_dir in directions:  # axis dirs
+                found = True
+
+                for k in range(1, len(word)):
+                    new_row: int = row + k * row_dir  # next row coord
+                    new_col: int = column + k * col_dir  # next col coord
+
+                    if not (
+                        0 <= new_row < len(matrix)  # new_row not out of range
+                        and 0 <= new_col < len(matrix[0])  # new_col not out of range
+                        and matrix[new_row][new_col] == word[k]  # same char
+                    ):
+                        found = False
+                        break
+
+                if found:
+                    return True
+
+    return False

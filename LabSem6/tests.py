@@ -255,6 +255,60 @@ class TestPrintMenu(unittest.TestCase):
         with self.assertRaises(ValueError):
             LabSem6.puede_colocar_flores([2, 0, 0, 0, 1], -1)
 
+    def test_sopa_de_letras(self):
+        test_cases = [
+            (
+                [
+                    "HOLA",
+                    [
+                        ["a", "w", "a", "q", "s", "t"],
+                        ["m", "z", "b", "a", "6", "1"],
+                        ["<", "a", "H", "d", "h", "G"],
+                        ["s", " ", "*", "O", "a", "$"],
+                        ["a", "y", "a", "u", "L", "F"],
+                        ["v", "j", ";", "@", "j", "A"],
+                    ],
+                ],
+                True,
+            ),
+            (
+                [
+                    "HOLA",
+                    [
+                        ["a", "w", "a", "q", "s", "t"],
+                        ["m", "z", "b", "a", "6", "1"],
+                        ["<", "a", "H", "d", "h", "G"],
+                        ["s", " ", "*", "8", "a", "$"],
+                        ["a", "y", "a", "u", "L", "F"],
+                        ["v", "j", ";", "@", "j", "A"],
+                    ],
+                ],
+                False,
+            ),
+            (["HOLA", []], False),
+            (["HOLA", [["H", "O", "L", "A"]]], True),
+            (["HOLA", [["H", "O", "L", "@"]]], False),
+        ]
+
+        for case_args, expected_result in test_cases:
+            self.assertEqual(LabSem6.sopa_de_letras(*case_args), expected_result)
+
+        test_cases2 = [
+            (
+                ["HOLA", [["HHH", "O", "L", "A"]]],
+                "La matriz sólo puede contener caracteres (strings de longitud 1).",
+            ),
+            (
+                ["HOLA", [["H", "O", "L", "A"], []]],
+                "La matriz debe ser M × N para algún M, N enteros.",
+            ),
+        ]
+
+        for case_args, expected_result in test_cases2:
+            with self.assertRaises(ValueError) as context:
+                LabSem6.sopa_de_letras(*case_args)
+                self.assertEqual(str(context.exception), expected_result)
+
 
 if __name__ == "__main__":
     unittest.main()

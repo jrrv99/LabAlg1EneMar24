@@ -77,3 +77,40 @@ def comprimir(string: str) -> str:
             count = 1
 
     return compressed_string
+
+
+EMPTY_SLOT_VALUE: int = 0
+SLOT_ALLOWED_VALUES: List[int] = [0, 1]
+
+
+def flowerbed_slot_is_empty(slot: int) -> bool:
+    return slot == EMPTY_SLOT_VALUE
+
+
+def puede_colocar_flores(flowerbed: List[int], num: int) -> bool:
+    if num < 0:
+        raise ValueError("El número de flores a plantar debe ser no-negativo")
+
+    if any(slot not in SLOT_ALLOWED_VALUES for slot in flowerbed):
+        raise ValueError("Los valores de la maceta deben ser 0 o 1.")
+
+    flowerbed_cp: List[int] = flowerbed.copy()  # to avoid change the given one
+    count: int = 0
+    i: int = 0
+
+    for i, slot in enumerate(flowerbed_cp):
+        if not flowerbed_slot_is_empty(slot):
+            continue
+
+        """ 
+        first checks right
+        last checks left
+        rest checks both
+        """
+        if (i == 0 or flowerbed_slot_is_empty(flowerbed_cp[i - 1])) and (
+            i == len(flowerbed_cp) - 1 or flowerbed_slot_is_empty(flowerbed_cp[i + 1])
+        ):
+            flowerbed_cp[i] = 1
+            count += 1
+
+    return count >= num

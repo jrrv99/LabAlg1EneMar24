@@ -227,6 +227,34 @@ class TestPrintMenu(unittest.TestCase):
         for value, expected_result in cases:
             self.assertEqual(LabSem6.comprimir(value), expected_result)
 
+    def test_puede_colocar_flores(self):
+        test_cases: List[Tuple[List[List[int], int], bool]] = [
+            ([[1, 0, 0, 0, 1], 1], True),
+            ([[1, 0, 0, 0, 1], 0], True),
+            ([[0, 0, 1, 0, 0], 2], True),
+            ([[0, 1, 1, 1, 0], 0], True),
+            ([[1, 0, 0, 0, 1], 2], False),
+            ([[0, 1, 1, 1, 0], 2], False),  # checks list index out of range
+            ([[0], 2], False),  # checks list index out of range
+            ([[0], 1], True),  # checks list index out of range
+            ([[1], 1], False),  # checks list index out of range
+            ([[1], 0], True),  # checks list index out of range
+        ]
+
+        for case_args, expected_result in test_cases:
+            self.assertEqual(
+                LabSem6.puede_colocar_flores(*case_args),
+                expected_result,
+                f"{case_args} is not {expected_result}",
+            )
+
+        with self.assertRaises(ValueError):
+            LabSem6.puede_colocar_flores([1, 0, 0, 0, 1], -1)
+        with self.assertRaises(ValueError):
+            LabSem6.puede_colocar_flores([2, 0, 0, 0, 1], 1)
+        with self.assertRaises(ValueError):
+            LabSem6.puede_colocar_flores([2, 0, 0, 0, 1], -1)
+
 
 if __name__ == "__main__":
     unittest.main()

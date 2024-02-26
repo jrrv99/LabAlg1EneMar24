@@ -213,6 +213,20 @@ class TestPrintMenu(unittest.TestCase):
         self.assertTrue(LabSem6.anagrama("amor", "roma"))
         self.assertFalse(LabSem6.anagrama("Toledo", "El todo"))
         self.assertFalse(LabSem6.anagrama("Hola", "Mundo"))
+        self.assertFalse(LabSem6.anagrama("", "roma"))
+        self.assertFalse(LabSem6.anagrama("amor", ""))
+        self.assertFalse(LabSem6.anagrama("", ""))
+
+    def test_comprimir(self):
+        cases: List[Tuple[str, str]] = [
+            ("aaaaabbbcccc", "5a3b4c"),
+            ("ab", "1a1b"),
+            ("", ""),
+        ]
+
+        for value, expected_result in cases:
+            self.assertEqual(LabSem6.comprimir(value), expected_result)
+
 
 if __name__ == "__main__":
     unittest.main()

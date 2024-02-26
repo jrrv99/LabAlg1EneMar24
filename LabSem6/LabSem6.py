@@ -56,4 +56,24 @@ def orderStringByUnicode(string: str) -> str:
 
 
 def anagrama(string1: str, string2: str) -> bool:
+    if string1 == string2:
+        return False
+
     return orderStringByUnicode(string1) == orderStringByUnicode(string2)
+
+
+def comprimir(string: str) -> str:
+    if any(char.isdigit() for char in string):
+        raise ValueError("El string no debe contener caracteres numéricos.")
+
+    compressed_string = ""
+    count = 1
+
+    for i in range(len(string)):
+        if i + 1 < len(string) and string[i] == string[i + 1]:
+            count += 1
+        else:
+            compressed_string += f"{count}{string[i]}"
+            count = 1
+
+    return compressed_string

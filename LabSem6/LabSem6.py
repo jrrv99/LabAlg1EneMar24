@@ -127,7 +127,7 @@ MOVE_UP_LEFT: Tuple[int, int] = (-1, -1)
 
 
 def sopa_de_letras(word: str, matrix: List[List[str]]) -> bool:
-    if not (len(matrix) >= 0 and all(len(row) == len(matrix[0]) for row in  matrix)):
+    if not (len(matrix) >= 0 and all(len(row) == len(matrix[0]) for row in matrix)):
         raise ValueError("La matriz debe ser M × N para algún M, N enteros.")
 
     if not all(len(char) == 1 for row in matrix for char in row):
@@ -168,5 +168,36 @@ def sopa_de_letras(word: str, matrix: List[List[str]]) -> bool:
 
                 if found:
                     return True
+
+    return False
+
+
+PositionType = Tuple[int, int]
+
+
+def jaque(
+    king_pos: PositionType,
+    rooks: List[PositionType],
+    bishops: List[PositionType],
+) -> bool:
+    if (
+        any(coord not in range(8) for coord in king_pos)
+        or any(coord not in range(8) for rook_pos in rooks for coord in rook_pos)
+        or any(coord not in range(8) for bishop_pos in bishops for coord in bishop_pos)
+    ):
+        raise ValueError(
+            "Todas las posiciones deben pertenecer al conjunto [0, 8) × [0, 8)."
+        )
+
+    if king_pos in rooks or king_pos in bishops:
+        raise ValueError("El rey no puede ocupar la misma posición que otra pieza.")
+
+    for rook_row, rook_col in rooks:
+        if rook_row == king_pos[0] or rook_col == king_pos[1]:
+            return True
+
+    for bishop_row, bishop_col in bishops:
+        if abs(bishop_row - king_pos[0]) == abs(bishop_col - king_pos[1]):
+            return True
 
     return False

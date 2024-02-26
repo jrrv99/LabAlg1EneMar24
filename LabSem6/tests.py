@@ -309,6 +309,29 @@ class TestPrintMenu(unittest.TestCase):
                 LabSem6.sopa_de_letras(*case_args)
                 self.assertEqual(str(context.exception), expected_result)
 
+    def tests_jaque(self):
+        test_cases = [
+            ([(0, 0), [(0, 5)], []], True),
+            ([(0, 0), [(3, 3)], []], False),
+            ([(0, 0), [], [(3, 3)]], True),
+            ([(0, 0), [(3, 3)], [(3, 3)]], True),
+        ]
+
+        for case_args, expected_result in test_cases:
+            self.assertEqual(LabSem6.jaque(*case_args), expected_result)
+
+        raises_test_cases = [
+            ([(0, 0), [], [(0, 0)]], "El rey no puede ocupar la misma posición que otra pieza."),
+            ([(10, 0), [(0, 5)], []], "Todas las posiciones deben pertenecer al conjunto [0, 8) × [0, 8)."),
+            ([(0, 0), [(0, 10)], []], "Todas las posiciones deben pertenecer al conjunto [0, 8) × [0, 8)."),
+            ([(0, 0), [], [(3, 10)]], "Todas las posiciones deben pertenecer al conjunto [0, 8) × [0, 8)."),
+        ]
+
+        for case_args, expected_result in raises_test_cases:
+            with self.assertRaises(ValueError) as context:
+                LabSem6.jaque(*case_args)
+                self.assertEqual(str(context.exception), expected_result)
+
 
 if __name__ == "__main__":
     unittest.main()

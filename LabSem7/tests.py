@@ -1,7 +1,14 @@
 from typing import List, Tuple
 import unittest
 
-from LabSem7 import es_conjunto, union, interseccion, diferencia, producto
+from LabSem7 import (
+    es_conjunto,
+    union,
+    interseccion,
+    diferencia,
+    producto,
+    conjunto_de_sumas,
+)
 
 
 class TestPrintMenu(unittest.TestCase):
@@ -120,6 +127,30 @@ class TestPrintMenu(unittest.TestCase):
         for args in assertion_test_cases:
             with self.assertRaises(AssertionError):
                 producto(*args)
+
+    def tests_conjunto_de_sumas(self):
+        test_cases = [
+            ([[1, 2], False], [0, 1, 2, 3]),
+            ([[1, 3], False], [0, 1, 3, 4]),
+            ([[], False], [0]),
+        ]
+
+        for (a, swap), expected_output in test_cases:
+            if not swap:
+                self.assertEqual(conjunto_de_sumas(a, swap), expected_output)
+                continue
+
+            result = conjunto_de_sumas(a, swap)
+            self.assertEqual(result, expected_output)
+            self.assertEqual(a, result)
+
+        assertion_test_cases = [
+            [[1, 1]],
+            [[1, 1], True],
+        ]
+        for args in assertion_test_cases:
+            with self.assertRaises(AssertionError):
+                conjunto_de_sumas(*args)
 
 
 if __name__ == "__main__":

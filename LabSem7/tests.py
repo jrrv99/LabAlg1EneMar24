@@ -1,7 +1,7 @@
 from typing import List, Tuple
 import unittest
 
-from LabSem7 import es_conjunto, union, interseccion, diferencia
+from LabSem7 import es_conjunto, union, interseccion, diferencia, producto
 
 
 class TestPrintMenu(unittest.TestCase):
@@ -90,6 +90,36 @@ class TestPrintMenu(unittest.TestCase):
         for args in assertion_test_cases:
             with self.assertRaises(AssertionError):
                 diferencia(*args)
+
+    def tests_producto(self):
+        test_cases = [
+            ([[0, 1], [2], False], [0, 2]),
+            ([[0, 1], [2, 4], False], [0, 2, 4]),
+            ([[], [2, 4], False], []),
+            ([[0, 1], [], False], []),
+            ([[], [], False], []),
+        ]
+
+        for (a, b, swap), expected_output in test_cases:
+            if not swap:
+                self.assertEqual(producto(a, b, swap), expected_output)
+                continue
+
+            result = producto(a, b, swap)
+            self.assertEqual(result, expected_output)
+            self.assertEqual(a, result)
+
+        assertion_test_cases = [
+            ([1, 1], [2, 1]),
+            ([1, 2], [2, 2]),
+            ([1, 1], [2, 2]),
+            ([1, 1], [2, 1], True),
+            ([1, 2], [2, 2], True),
+            ([1, 1], [2, 2], True),
+        ]
+        for args in assertion_test_cases:
+            with self.assertRaises(AssertionError):
+                producto(*args)
 
 
 if __name__ == "__main__":

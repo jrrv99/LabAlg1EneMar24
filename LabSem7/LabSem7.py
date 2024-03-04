@@ -46,3 +46,22 @@ def diferencia(set_1: SetType, set_2: SetType, swap: bool = False) -> SetType:
         set_1.extend(result)
 
     return result
+
+
+def producto(set_1: SetType, set_2: SetType, swap: bool = False) -> SetType:
+    assert es_conjunto(set_1) and es_conjunto(set_2)
+    result = []
+
+    if len(set_2) == 0 or len(set_2) == 0:
+        return result
+
+    for a in set_1:
+        for b in set_2:
+            if (a * b) not in result:
+                result.append(a * b)
+
+    if swap:
+        set_1.clear()
+        set_1.extend(result)
+
+    return result

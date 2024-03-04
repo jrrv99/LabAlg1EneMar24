@@ -34,3 +34,15 @@ def interseccion(set_1: SetType, set_2: SetType, swap: bool = False) -> SetType:
         set_1.extend(result)
 
     return result
+
+
+def diferencia(set_1: SetType, set_2: SetType, swap: bool = False) -> SetType:
+    assert es_conjunto(set_1) and es_conjunto(set_2)
+
+    result = [number for number in set_1 if number not in set_2]
+
+    if swap:
+        set_1.clear()
+        set_1.extend(result)
+
+    return result

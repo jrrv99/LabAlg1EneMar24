@@ -1,4 +1,11 @@
 from typing import List
 
-def es_conjunto(lista: List[int]) -> bool:
-    return len(lista) == len(set(lista))
+SetType = List[int]
+
+def es_conjunto(lista: SetType) -> bool:
+    items = []
+    for item in lista:
+        if item not in items:
+            items.append(item)
+
+    return len(lista) == len(items)

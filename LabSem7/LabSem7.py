@@ -83,3 +83,24 @@ def conjunto_de_sumas(set_1: SetType, swap: bool = False) -> SetType:
         set_1.extend(result)
 
     return result
+
+
+MatrixType = List[List[int]]
+
+
+def producto_matricial(A: MatrixType, B: MatrixType) -> MatrixType:
+    M = len(A)
+    N = len(B)
+    P = len(B[0])
+
+    assert all(len(row) == N for row in A)
+    assert all(len(row) == P for row in B)
+
+    result: List[List[int]] = [[0 for _ in range(P)] for _ in range(M)]
+
+    for row in range(M):
+        for column in range(P):
+            for k in range(N):
+                result[row][column] += A[row][k] * B[k][column]
+
+    return result

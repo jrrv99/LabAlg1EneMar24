@@ -8,6 +8,7 @@ from LabSem7 import (
     diferencia,
     producto,
     conjunto_de_sumas,
+    producto_matricial,
 )
 
 
@@ -151,6 +152,27 @@ class TestPrintMenu(unittest.TestCase):
         for args in assertion_test_cases:
             with self.assertRaises(AssertionError):
                 conjunto_de_sumas(*args)
+
+    def test_producto_matricial(self):
+        a: List[List[int]] = [[3, 4, -1], [-7, 0, 2], [2, 5, 8]]
+        b: List[List[int]] = [[6, 0, -6], [3, 4, 5], [-1, -2, -3]]
+        expected_result: List[List[int]] = [[31, 18, 5], [-44, -4, 36], [19, 4, -11]]
+        self.assertEqual(producto_matricial(a, b), expected_result)
+
+        a: List[List[int]] = [
+            [3, 4, -1],
+            [-7, 0, 2]
+        ]
+        b: List[List[int]] = [
+            [6, 0],
+            [3, 4],
+            [-1, -2]
+        ]
+        expected_result: List[List[int]] = [[31, 18], [-44, -4]]
+        self.assertEqual(producto_matricial(a, b), expected_result)
+
+        with self.assertRaises(AssertionError):
+            producto_matricial([[1, 2], [1]], [[2], [2]])
 
 
 if __name__ == "__main__":

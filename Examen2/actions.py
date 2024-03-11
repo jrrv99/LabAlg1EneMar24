@@ -6,7 +6,7 @@ ADD_RIVER: int = 3
 ADD_MOUNTAIN: int = 4
 FLATTEN_AREA: int = 5
 DELETE_AREA: int = 6
-RESIZE_AREA: int = 6
+RESIZE_AREA: int = 7
 UNDO: int = 8
 EXIT: int = 9
 

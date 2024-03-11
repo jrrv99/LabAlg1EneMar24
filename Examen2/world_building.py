@@ -127,11 +127,11 @@ def add_river(
     if D == 1:  # Vertical
         for i in range(max(0, Y - 1), min(WORLD_HEIGHT, Y + 2)):
             if 0 <= X < WORLD_WIDTH and world[i][X] != EMPTY:
-                world[i][X] = WATER
+                world[i][X] = element
     elif D == 2:  # Horizontal
         for j in range(max(0, X - 1), min(WORLD_WIDTH, X + 2)):
             if 0 <= Y < WORLD_HEIGHT and world[Y][j] != EMPTY:
-                world[Y][j] = WATER
+                world[Y][j] = element
     elif D == 3:  # Diagonal
         for k in range(3):
             new_X = X - 1 + k
@@ -141,19 +141,21 @@ def add_river(
                 and 0 <= new_Y < WORLD_HEIGHT
                 and world[new_Y][new_X] != EMPTY
             ):
-                world[new_Y][new_X] = WATER
+                world[new_Y][new_X] = element
     elif D == 4:  # Diagonal inversa
         for k in range(3):
             new_X = X + 1 - k
             new_Y = Y - 1 + k
             if 0 <= new_X < WORLD_WIDTH and 0 <= new_Y < WORLD_HEIGHT:
-                world[new_Y][new_X] = WATER
+                world[new_Y][new_X] = element
 
     return world
 
 
 def add_mountain(
-    world: WorldType, world_dimentions: WorldDimentionsType, element: TileType = WATER
+    world: WorldType,
+    world_dimentions: WorldDimentionsType,
+    element: TileType = MOUNTAIN,
 ) -> WorldType:
     WORLD_WIDTH, WORLD_HEIGHT = world_dimentions
     X: int
@@ -176,8 +178,30 @@ def add_mountain(
             L2 = math.sqrt(((row - X) ** 2) + ((col - Y) ** 2))
 
             if L2 <= R and world[row][col] != EMPTY:
-                world[row][col] = MOUNTAIN
+                world[row][col] = element
 
+    return world
+
+
+def fill_area(
+    world: WorldType,
+    world_dimentions: WorldDimentionsType,
+    element: TileType,
+) -> WorldType:
+    option = get_menu_option(
+        messages.FILL_SHAPE_MENU_MESSAGE,
+        constants.FILL_SHAPE_MENU,
+        constants.FILL_SHAPE_MENU_ALLOWED_OPTIONS,
+    )
+
+    if option == 1:
+        return add_city(world, world_dimentions, element)
+    elif option == 2:
+        return add_river(world, world_dimentions, element)
+    elif option == 3:
+        return add_mountain(world, world_dimentions, element)
+
+    log_error(messages.ERROR_MENU_OPTION_INPUT)
     return world
 
 
@@ -205,9 +229,9 @@ def main() -> None:
         elif action == actions.ADD_MOUNTAIN:
             world = add_mountain(world, world_dimentions)
         elif action == actions.FLATTEN_AREA:
-            print(actions.FLATTEN_AREA)
+            world = fill_area(world, world_dimentions, GROUND)
         elif action == actions.DELETE_AREA:
-            print(actions.DELETE_AREA)
+            world = fill_area(world, world_dimentions, EMPTY)
         elif action == actions.RESIZE_AREA:
             print(actions.RESIZE_AREA)
         elif action == actions.UNDO:

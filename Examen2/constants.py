@@ -34,8 +34,17 @@ RIVER_MENU: MenuType = [
     (4, messages.RIVER_MENU_DIAGONAL_INVERSA),
 ]
 
+FILL_SHAPE_MENU: MenuType = [
+    (1, messages.FILL_SHAPE_MENU_CITY),
+    (2, messages.FILL_SHAPE_MENU_RIVER),
+    (3, messages.FILL_SHAPE_MENU_MOUNTAIN),
+]
+
 RIVER_MENU_ALLOWED_OPTIONS: Set[str] = set(
     [str(i + 1) for i in range(len(RIVER_DIRECTIONS))]
+)
+FILL_SHAPE_MENU_ALLOWED_OPTIONS: Set[str] = set(
+    [str(i + 1) for i in range(len(FILL_SHAPE_MENU))]
 )
 
 DEFAULT_RIVER_WIDTH: int = 3

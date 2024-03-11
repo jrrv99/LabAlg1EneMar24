@@ -13,7 +13,7 @@ MENU_UNDO_OPTION: str = "Deshacer."
 MENU_EXIT_OPTION: str = "Salir"
 
 RIVER_MENU_MESSAGE: str = "Indique una dirección:"
-RIVER_MENU_VERTICAL = 'Vertical.'
+RIVER_MENU_VERTICAL = "Vertical."
 RIVER_MENU_HORIZONTAL: str = "Horizontal"
 RIVER_MENU_DIAGONAL: str = "Diagonal."
 RIVER_MENU_DIAGONAL_INVERSA: str = "Diagonal inversa."
@@ -41,3 +41,8 @@ ERROR_RIVER_INPUTS: str = (
 ERROR_MOUNTAIN_INPUTS: str = (
     "Solo se permiten valores numéricos donde 0 ≤ X < %d, 0 ≤ Y < %d y R > 0"
 )
+
+FILL_SHAPE_MENU_MESSAGE: str = "\nEliga la forma con que se aplanará:"
+FILL_SHAPE_MENU_CITY: str = "Forma ciudad."
+FILL_SHAPE_MENU_RIVER: str = "Forma río."
+FILL_SHAPE_MENU_MOUNTAIN: str = "Forma montaña."

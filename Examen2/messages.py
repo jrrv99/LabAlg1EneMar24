@@ -22,6 +22,8 @@ COORD_X_INPUT: str = "\nIndique la coordenada X: "
 COORD_Y_INPUT: str = "Indique la coordenada Y: "
 CITY_L_INPUT: str = "Indique el lado L: "
 
+MOUNTAIN_R_INPUT: str = "Indique el radio R: "
+
 EXIT_MESSAGE: str = "\nHasta luego!"
 
 ERROR_WORLD_WIDTH_INPUT: str = "Indique el ancho: "
@@ -35,4 +37,7 @@ ERROR_CITY_INPUTS: str = (
 )
 ERROR_RIVER_INPUTS: str = (
     "Solo se permiten valores numéricos donde 0 ≤ X < %d, 0 ≤ Y < %d y 1 ≤ D ≤ 4"
+)
+ERROR_MOUNTAIN_INPUTS: str = (
+    "Solo se permiten valores numéricos donde 0 ≤ X < %d, 0 ≤ Y < %d y R > 0"
 )

@@ -1,3 +1,4 @@
+import math
 from typing import Set
 
 from world_types import (
@@ -93,7 +94,8 @@ def add_city(
     LY: int = L if Y + L < WORLD_HEIGHT else WORLD_HEIGHT
     for row in range(X, LX):
         for col in range(Y, LY):
-            world[row][col] = element
+            if world[row][col] != EMPTY:
+                world[row][col] = element
 
     return world
 
@@ -124,17 +126,21 @@ def add_river(
     # TODO: Refactor this with constants.RIVER_DIRECTIONS
     if D == 1:  # Vertical
         for i in range(max(0, Y - 1), min(WORLD_HEIGHT, Y + 2)):
-            if 0 <= X < WORLD_WIDTH:
+            if 0 <= X < WORLD_WIDTH and world[i][X] != EMPTY:
                 world[i][X] = WATER
     elif D == 2:  # Horizontal
         for j in range(max(0, X - 1), min(WORLD_WIDTH, X + 2)):
-            if 0 <= Y < WORLD_HEIGHT:
+            if 0 <= Y < WORLD_HEIGHT and world[Y][j] != EMPTY:
                 world[Y][j] = WATER
     elif D == 3:  # Diagonal
         for k in range(3):
             new_X = X - 1 + k
             new_Y = Y - 1 + k
-            if 0 <= new_X < WORLD_WIDTH and 0 <= new_Y < WORLD_HEIGHT:
+            if (
+                0 <= new_X < WORLD_WIDTH
+                and 0 <= new_Y < WORLD_HEIGHT
+                and world[new_Y][new_X] != EMPTY
+            ):
                 world[new_Y][new_X] = WATER
     elif D == 4:  # Diagonal inversa
         for k in range(3):
@@ -142,6 +148,35 @@ def add_river(
             new_Y = Y - 1 + k
             if 0 <= new_X < WORLD_WIDTH and 0 <= new_Y < WORLD_HEIGHT:
                 world[new_Y][new_X] = WATER
+
+    return world
+
+
+def add_mountain(
+    world: WorldType, world_dimentions: WorldDimentionsType, element: TileType = WATER
+) -> WorldType:
+    WORLD_WIDTH, WORLD_HEIGHT = world_dimentions
+    X: int
+    Y: int
+    R: int
+
+    try:
+        X = int(input(messages.COORD_X_INPUT))
+        Y = int(input(messages.COORD_Y_INPUT))
+        R = int(input(messages.MOUNTAIN_R_INPUT))
+
+        if (0 > X or X >= WORLD_WIDTH) or (0 > Y or Y >= WORLD_HEIGHT) or (R <= 0):
+            raise ValueError("INPUTS_ERROR")
+    except ValueError:
+        log_error(messages.ERROR_MOUNTAIN_INPUTS % (WORLD_WIDTH, WORLD_HEIGHT))
+        return world
+
+    for row in range(WORLD_WIDTH):
+        for col in range(WORLD_HEIGHT):
+            L2 = math.sqrt(((row - X) ** 2) + ((col - Y) ** 2))
+
+            if L2 <= R and world[row][col] != EMPTY:
+                world[row][col] = MOUNTAIN
 
     return world
 
@@ -168,7 +203,7 @@ def main() -> None:
         elif action == actions.ADD_RIVER:
             world = add_river(world, world_dimentions)
         elif action == actions.ADD_MOUNTAIN:
-            print(actions.ADD_MOUNTAIN)
+            world = add_mountain(world, world_dimentions)
         elif action == actions.FLATTEN_AREA:
             print(actions.FLATTEN_AREA)
         elif action == actions.DELETE_AREA:

@@ -19,3 +19,5 @@ WorldType = List[List[TileType]]
 WorldDimentionsType = Union[None, List[int]]
 
 MenuType = List[Tuple[int, str]]
+
+CoordType = Tuple[int, int]

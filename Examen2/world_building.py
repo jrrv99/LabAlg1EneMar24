@@ -98,6 +98,54 @@ def add_city(
     return world
 
 
+def add_river(
+    world: WorldType, world_dimentions: WorldDimentionsType, element: TileType = WATER
+) -> WorldType:
+    WORLD_WIDTH, WORLD_HEIGHT = world_dimentions
+    X: int
+    Y: int
+    D: int
+
+    try:
+        X = int(input(messages.COORD_X_INPUT))
+        Y = int(input(messages.COORD_Y_INPUT))
+        D = get_menu_option(
+            messages.RIVER_MENU_MESSAGE,
+            constants.RIVER_MENU,
+            constants.RIVER_MENU_ALLOWED_OPTIONS,
+        )
+
+        if (0 > X or X >= WORLD_WIDTH) or (0 > Y or Y >= WORLD_HEIGHT) or (D == 0):
+            raise ValueError("INPUTS_ERROR")
+    except ValueError:
+        log_error(messages.ERROR_RIVER_INPUTS % (WORLD_WIDTH, WORLD_HEIGHT))
+        return world
+
+    # TODO: Refactor this with constants.RIVER_DIRECTIONS
+    if D == 1:  # Vertical
+        for i in range(max(0, Y - 1), min(WORLD_HEIGHT, Y + 2)):
+            if 0 <= X < WORLD_WIDTH:
+                world[i][X] = WATER
+    elif D == 2:  # Horizontal
+        for j in range(max(0, X - 1), min(WORLD_WIDTH, X + 2)):
+            if 0 <= Y < WORLD_HEIGHT:
+                world[Y][j] = WATER
+    elif D == 3:  # Diagonal
+        for k in range(3):
+            new_X = X - 1 + k
+            new_Y = Y - 1 + k
+            if 0 <= new_X < WORLD_WIDTH and 0 <= new_Y < WORLD_HEIGHT:
+                world[new_Y][new_X] = WATER
+    elif D == 4:  # Diagonal inversa
+        for k in range(3):
+            new_X = X + 1 - k
+            new_Y = Y - 1 + k
+            if 0 <= new_X < WORLD_WIDTH and 0 <= new_Y < WORLD_HEIGHT:
+                world[new_Y][new_X] = WATER
+
+    return world
+
+
 def main() -> None:
     world: WorldType
     world_dimentions: WorldDimentionsType = None
@@ -118,7 +166,7 @@ def main() -> None:
         elif action == actions.ADD_CITY:
             world = add_city(world, world_dimentions)
         elif action == actions.ADD_RIVER:
-            print(actions.ADD_RIVER)
+            world = add_river(world, world_dimentions)
         elif action == actions.ADD_MOUNTAIN:
             print(actions.ADD_MOUNTAIN)
         elif action == actions.FLATTEN_AREA:

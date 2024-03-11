@@ -1,4 +1,5 @@
-import math
+from typing import Union, List
+import math, copy
 from typing import Set
 
 from world_types import (
@@ -205,8 +206,42 @@ def fill_area(
     return world
 
 
+# Helper function to extend rows with ground tiles
+def extend_row(row: List[TileType], new_width: int):
+    return (
+        row[:new_width]
+        if new_width < len(row)
+        else row + [GROUND] * (new_width - len(row))
+    )
+
+
+def resize_world(world: WorldType) -> Union[WorldType, WorldDimentionsType]:
+    try:
+        new_world_width = int(input("Indique el ancho: "))
+        new_world_height = int(input("Indique el alto: "))
+
+        if new_world_width < 1 or new_world_height < 1:
+            raise ValueError("INVALID_DIMENSIONS")
+    except ValueError:
+        log_error(messages.ERROR_WORLD_DIMENTIONS)
+        return world, None  # Return only the original world
+
+    # Resize world width
+    world = [extend_row(row, new_world_width) for row in world]
+
+    # Resize world height
+    if new_world_height < len(world):
+        world = world[:new_world_height]
+    else:
+        for _ in range(new_world_height - len(world)):
+            world.append([GROUND] * new_world_width)
+
+    return world, [new_world_width, new_world_height]
+
+
 def main() -> None:
     world: WorldType
+    world_copy: Union[None, WorldType] = None
     world_dimentions: WorldDimentionsType = None
     action: int = 0
 
@@ -219,6 +254,9 @@ def main() -> None:
         action = get_menu_option(
             messages.MENU_OPTION_INPUT, constants.MAIN_MENU, actions.ALLOWED_ACTIONS
         )
+
+        if action in actions.ALLOWED_UNDO_ACTIONS:
+            world_copy = copy.deepcopy(world)
 
         if action == actions.PRINT_WORLD:
             print_world(world)
@@ -233,9 +271,13 @@ def main() -> None:
         elif action == actions.DELETE_AREA:
             world = fill_area(world, world_dimentions, EMPTY)
         elif action == actions.RESIZE_AREA:
-            print(actions.RESIZE_AREA)
+            new_world, new_dims = resize_world(world)
+            if new_dims is not None:
+                world = new_world
+                world_dimentions = new_dims
         elif action == actions.UNDO:
-            print(actions.UNDO)
+            world = world_copy
+            world_copy = None
         elif action == actions.EXIT:
             print(messages.EXIT_MESSAGE)
         else:

@@ -67,6 +67,34 @@ def print_world(world: WorldType) -> None:
     print("\n".join([" ".join(row) for row in world]))
 
 
+def add_city(
+    world: WorldType, world_dimentions: WorldDimentionsType, element: TileType = CITY
+) -> WorldType:
+    WORLD_WIDTH, WORLD_HEIGHT = world_dimentions
+    X: int
+    Y: int
+    L: int
+
+    try:
+        X = int(input(messages.COORD_X_INPUT))
+        Y = int(input(messages.COORD_Y_INPUT))
+        L = int(input(messages.CITY_L_INPUT))
+
+        if (0 > X or X >= WORLD_WIDTH) or (0 > Y or Y >= WORLD_HEIGHT) or (L <= 0):
+            raise ValueError("INPUTS_ERROR")
+    except ValueError:
+        log_error(messages.ERROR_CITY_INPUTS % (WORLD_WIDTH, WORLD_HEIGHT))
+        return world
+
+    LX: int = L if X + L < WORLD_WIDTH else WORLD_WIDTH
+    LY: int = L if Y + L < WORLD_HEIGHT else WORLD_HEIGHT
+    for row in range(X, LX):
+        for col in range(Y, LY):
+            world[row][col] = element
+
+    return world
+
+
 def main() -> None:
     world: WorldType
     world_dimentions: WorldDimentionsType = None
@@ -83,7 +111,7 @@ def main() -> None:
         if action == actions.PRINT_WORLD:
             print_world(world)
         elif action == actions.ADD_CITY:
-            print(actions.ADD_CITY)
+            world = add_city(world, world_dimentions)
         elif action == actions.ADD_RIVER:
             print(actions.ADD_RIVER)
         elif action == actions.ADD_MOUNTAIN:
@@ -97,7 +125,7 @@ def main() -> None:
         elif action == actions.UNDO:
             print(actions.UNDO)
         elif action == actions.EXIT:
-            print(actions.EXIT)
+            print(messages.EXIT_MESSAGE)
         else:
             log_error(messages.ERROR_MENU_OPTION_INPUT)
 

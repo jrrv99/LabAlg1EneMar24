@@ -21,4 +21,9 @@ EXIT_MESSAGE: str = "Hasta luego!"
 ERROR_WORLD_WIDTH_INPUT: str = "Indique el ancho: "
 ERROR_WORLD_HEIGHT_INPUT: str = "Indique el alto: "
 ERROR_MENU_OPTION_INPUT: str = "La opción seleccionada no es válida."
-ERROR_WORLD_DIMENTIONS:str = "Las dimensiones del mundo tienen que ser enteros positivos!\n"
+ERROR_WORLD_DIMENTIONS: str = (
+    "Las dimensiones del mundo tienen que ser enteros positivos!\n"
+)
+ERROR_CITY_INPUTS: str = (
+    "Solo se permiten valores numéricos donde 0 ≤ X < %d, 0 ≤ Y < %d y L > 0"
+)

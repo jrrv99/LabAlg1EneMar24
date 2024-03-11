@@ -1,4 +1,4 @@
-from typing import Literal, Union, List
+from typing import Literal, Union, List, Tuple
 
 GroundType = Literal["\033[1;32mT\033[0m"]
 CityType = Literal["\033[1mC\033[0m"]
@@ -17,3 +17,5 @@ TileType = Union[
 WorldType = List[List[TileType]]
 
 WorldDimentionsType = Union[None, List[int]]
+
+MenuType = List[Tuple[int, str]]

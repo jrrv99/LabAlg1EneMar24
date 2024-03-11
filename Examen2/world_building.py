@@ -1,4 +1,4 @@
-from typing import Union, List, Tuple
+from typing import Set
 
 from world_types import (
     GroundType,
@@ -9,6 +9,7 @@ from world_types import (
     WorldType,
     TileType,
     WorldDimentionsType,
+    MenuType,
 )
 import constants, messages, actions, colors
 
@@ -28,7 +29,7 @@ def world_constructor(width: int, heigth: int, element: TileType = GROUND) -> Wo
     return [[element for _ in range(width)] for _ in range(heigth)]
 
 
-def get_world_dimentions() -> Union[None, List[int]]:
+def get_world_dimentions() -> WorldDimentionsType:
     world_width: int
     world_height: int
     try:
@@ -44,17 +45,19 @@ def get_world_dimentions() -> Union[None, List[int]]:
     return [world_width, world_height]
 
 
-def print_menu(menu: List[Tuple[int, str]]) -> None:
+def print_menu(menu: MenuType) -> None:
     for option, message in menu:
         print(f"{colors.GREEN}{option}.\033[0m {message}")
 
 
-def get_menu_option() -> int:
-    print(messages.MENU_OPTION_INPUT)
-    print_menu(constants.MAIN_MENU)
+def get_menu_option(
+    menu_input_message: str, menu: MenuType, allowed_options: Set[str]
+) -> int:
+    print(menu_input_message)
+    print_menu(menu)
     option = input()
 
-    if option not in actions.ALLOWED_ACTIONS:
+    if option not in allowed_options:
         return 0
 
     return int(option)
@@ -106,7 +109,9 @@ def main() -> None:
     world = world_constructor(*world_dimentions)
 
     while action != actions.EXIT:
-        action = get_menu_option()
+        action = get_menu_option(
+            messages.MENU_OPTION_INPUT, constants.MAIN_MENU, actions.ALLOWED_ACTIONS
+        )
 
         if action == actions.PRINT_WORLD:
             print_world(world)

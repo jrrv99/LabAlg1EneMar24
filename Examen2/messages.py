@@ -16,7 +16,7 @@ COORD_X_INPUT: str = "\nIndique la coordenada X: "
 COORD_Y_INPUT: str = "Indique la coordenada Y: "
 CITY_L_INPUT: str = "Indique el lado L: "
 
-EXIT_MESSAGE: str = "Hasta luego!"
+EXIT_MESSAGE: str = "\nHasta luego!"
 
 ERROR_WORLD_WIDTH_INPUT: str = "Indique el ancho: "
 ERROR_WORLD_HEIGHT_INPUT: str = "Indique el alto: "

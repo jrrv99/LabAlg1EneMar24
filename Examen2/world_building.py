@@ -27,6 +27,10 @@ def log_error(message: str):
     print(f"{colors.RED}{message}\033[0m")
 
 
+def log_warning(message: str):
+    print(f"{colors.YELLOW}{message}\033[0m")
+
+
 def world_constructor(width: int, heigth: int, element: TileType = GROUND) -> WorldType:
     return [[element for _ in range(width)] for _ in range(heigth)]
 
@@ -276,8 +280,11 @@ def main() -> None:
                 world = new_world
                 world_dimentions = new_dims
         elif action == actions.UNDO:
-            world = world_copy
-            world_copy = None
+            if world_copy is not None:
+                world = world_copy
+                world_copy = None
+            else:
+                log_warning("No actions to undo!")
         elif action == actions.EXIT:
             print(messages.EXIT_MESSAGE)
         else:
